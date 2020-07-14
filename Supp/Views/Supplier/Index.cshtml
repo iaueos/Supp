@@ -1,0 +1,214 @@
+﻿@{
+    ViewBag.Title = "Supplier Maintenance Screen";
+}
+
+<div class="jumbotron">
+<h2>Supplier Maintenance Screen</h2>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            Supplier Code
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="SupplierCode" class="form-control" maxlength="10"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            Province
+        </div>
+
+        <div class="col-md-4">
+            <select id="ProvinceSelect" class="form-control">
+                <option value="">ALL</option>
+
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            City
+        </div>
+        <div class="col-md-4">
+            <select id="CitySelect" class="form-control">
+                <option value="">ALL</option>
+            </select>
+        </div>
+        <div class="col-md-6 ">
+            <button type="submit" class="btn btn-default" id="SearchButton">Searh</button>
+            <button type="button" class="btn btn-default" id="ClearButton">Clear</button>
+        </div>
+    </div>
+
+    <div class="row">&nbsp;</div>
+
+    <div class="row">
+        <div class="col-md-2">
+            Choose File:
+        </div>
+        <div class="col-md-3">
+            <input type="file" id="ExcelUpload" />
+        </div>
+        <div class="col-md-1">
+            <button type="button" id="UploadButton">Upload</button>
+        </div>
+        <div class="col-md-6">
+            <button id="AddButton">Add</button>
+            <button id="EditButton">Edit</button>
+            <button id="DeleteButton">Delete</button>
+        </div>
+    </div>
+    
+    <div class="row">&nbsp;</div>
+
+    <div class="row">
+        <table class="table-responsive">
+
+            <thead>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        Supplier Code
+                    </td>
+                    <td>
+                        Supplier Name
+                    </td>
+                    <td>
+                        Address
+                    </td>
+                    <td>
+                        Province
+                    </td>
+                    <td>
+                        City
+                    </td>
+                    <td>
+                        PIC
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        &nbsp;
+                    </td>
+                    <td>
+                        <input type="text" placeholder="Code" class="form-control" id="SUPPLIER_CODE" maxlength="10"/>
+                    </td>
+                    <td>
+                        <input type="text" placeholder="Name" class="form-control" id="SUPPLIER_NAME" maxlength="50"/>
+                    </td>
+                    <td>
+                        <input type="text" placeholder="Address" class="form-control" id="ADDRESS" maxlength="100"/>
+                    </td>
+                    <td>
+                        <select id="PROVINCE" class="form-control">
+                            <option value="">All</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select id="CITY" class="form-control">
+                            <option vlaue="">All</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input id="PIC" type="text" placeholder="PIC" class="form-control" maxlength="30" />
+
+                    </td>
+                </tr>
+                <tr id="tr0" class="hidden" >
+                    <td class="colSELECTION">
+                        <input type="checkbox"  />
+                    </td>
+                    <td class="colSUPPLIER_CODE">
+                        SC1
+                    </td>
+                    <td class="colSUPPLIER_NAME">
+                        Supplier Name 1
+                    </td>
+                    <td class="colADDRESS">
+                        Address 1
+                    </td>
+                    <td class="colPROVINCE">
+                        Province 1
+                    </td>
+                    <td class="colCITY">
+                        City 1
+                    </td>
+                    <td class="colPIC">
+                        PIC 1
+                    </td>
+                </tr>
+                <tr class="hidden" >
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>
+                        SC2
+                    </td>
+                    <td>
+                        Supplier Name 2
+                    </td>
+                    <td>
+                        Address 2
+                    </td>
+                    <td>
+                        Province 2
+                    </td>
+                    <td>
+                        City 2
+                    </td>
+                    <td>
+                        PIC 2
+                    </td>
+                </tr>
+                <tr class="hidden">
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>
+                        SC3
+                    </td>
+                    <td>
+                        Supplier Name 3
+                    </td>
+                    <td>
+                        Address 3
+                    </td>
+                    <td>
+                        Province 3
+                    </td>
+                    <td>
+                        City 3
+                    </td>
+                    <td>
+                        PIC 3
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            &nbsp;
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-default" id="DownloadButton">Download</button>
+
+        </div>
+        <div class="col-md-6">
+            <button id="SaveButton" type="button" class="btn btn-success">Save</button>
+            <button id="CancelButton" type="button" class="btn btn-default">Cancel</button>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+<script src="~/Scripts/xlsx.full.min.js"></script>
+<script src="~/Scripts/jszip.js"></script>
+<script src="~/Scripts/Supplier.js"></script>
+}
