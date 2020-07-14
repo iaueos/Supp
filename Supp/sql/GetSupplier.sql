@@ -1,0 +1,11 @@
+select  SUPPLIER_CODE,
+       SUPPLIER_NAME,
+       [ADDRESS],
+       PROVINCE,
+       CITY,
+       PIC
+from dbo.TB_M_SUPPLIER with (nolock)
+where (NULLIF(@SUPPLIER_CODE,'') IS NULL OR SUPPLIER_CODE = @SUPPLIER_CODE) 
+  and (NULLIF(@PROVINCE, '') IS NULL OR PROVINCE = @PROVINCE) 
+  and (NULLIF(@CITY, '') IS NULL OR CITY = @CITY) 
+  
