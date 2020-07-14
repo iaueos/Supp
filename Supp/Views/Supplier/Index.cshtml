@@ -21,7 +21,7 @@
         </div>
 
         <div class="col-md-4">
-            <select id="ProvinceSelect" class="form-control">
+            <select id="ProvinceSelect" class="form-control listen">
                 <option value="">ALL</option>
 
             </select>
@@ -32,7 +32,7 @@
             City
         </div>
         <div class="col-md-4">
-            <select id="CitySelect" class="form-control">
+            <select id="CitySelect" class="form-control listen">
                 <option value="">ALL</option>
             </select>
         </div>
@@ -49,15 +49,15 @@
             Choose File:
         </div>
         <div class="col-md-3">
-            <input type="file" id="ExcelUpload" />
+            <input type="file" id="ExcelUpload"/>
         </div>
         <div class="col-md-1">
-            <button type="button" id="UploadButton">Upload</button>
+            <button type="button" id="UploadButton"  class="btn btn-default">Upload</button>
         </div>
         <div class="col-md-6">
-            <button id="AddButton">Add</button>
-            <button id="EditButton">Edit</button>
-            <button id="DeleteButton">Delete</button>
+            <button id="AddButton" class="btn btn-default">Add</button>
+            <button id="EditButton" class="btn btn-default">Edit</button>
+            <button id="DeleteButton"  class="btn btn-default">Delete</button>
         </div>
     </div>
     
@@ -107,12 +107,12 @@
                     </td>
                     <td>
                         <select id="PROVINCE" class="form-control">
-                            <option value="">All</option>
+                            
                         </select>
                     </td>
                     <td>
                         <select id="CITY" class="form-control">
-                            <option vlaue="">All</option>
+                            
                         </select>
                     </td>
                     <td>
@@ -208,7 +208,7 @@
 </div>
 
 @section scripts {
-<script src="~/Scripts/xlsx.full.min.js"></script>
 <script src="~/Scripts/jszip.js"></script>
+<script src="~/Scripts/xlsx.full.min.js"></script>
 <script src="~/Scripts/Supplier.js"></script>
 }

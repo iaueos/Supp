@@ -26,3 +26,7 @@ textarea {
 input#SupplierCode {
     width: 10em;
 }
+
+select.listen {
+    width: 10em;
+}

@@ -1,28 +1,36 @@
 ﻿var ProvinceCity = [];
 var Provinces = [];
 var Suppliers = []; 
+var UploadSuppliers = [];
 
 function distinct(value, index, self) { return value!==undefined && self.indexOf(value) === index; }
 
-function renderOptions(e, aOptions) {
+function renderOptions(e, aOptions, EmptyText) {
     var oe = $(e);
     oe.empty();
-    oe.append($('<option/>').val('').text('ALL'));
-    $.each(aOptions, function (i, a) { oe.append($('<option/>').val(a).text(a)); });
+    oe.append($('<option/>').val('').text(EmptyText));
+    aOptions.forEach(function (v, i) { oe.append($('<option/>').val(v).text(v)); }); 
 }
 
 function SupplierCodeOnSearch(SUPPLIER_CODE) {
     $.getJSON('/Supplier/GetSupplier?SUPPLIER_CODE=' + encodeURIComponent(SUPPLIER_CODE)
         , function (x, h, r) {
-            console.log(x);
-            if (x.length < 1) return; 
+            if (x.length < 1) {
+                $('#SUPPLIER_NAME').val('');
+                $('#ADDRESS').val('');
+                $('#PROVINCE').val('');
+                $('#CITY').val('');
+                $('#PIC').val('');
+            } else {
 
-            var s = x[0];
-            $('#SUPPLIER_NAME').val(s.SUPPLIER_NAME);
-            $('#ADDRESS').val(s.ADDRESS);
-            $('#PROVINCE').val(s.PROVINCE);
-            $('#CITY').val(s.CITY);
-            $('#PIC').val(s.PIC);
+
+                var s = x[0];
+                $('#SUPPLIER_NAME').val(s.SUPPLIER_NAME);
+                $('#ADDRESS').val(s.ADDRESS);
+                $('#PROVINCE').val(s.PROVINCE);
+                $('#CITY').val(s.CITY);
+                $('#PIC').val(s.PIC);
+            }
     });
 }
 
@@ -30,15 +38,13 @@ function SupplierCodeOnSearch(SUPPLIER_CODE) {
 $(function () {
     $.getJSON("/Supplier/GetProvinceCity", function (data, status, xhr) {
         ProvinceCity = data;
-        console.log('data:', data);
-
         var p = ProvinceCity.map(function (v, i, a) {
             return v.PROVINCE;
         }); 
         Provinces = p.filter(distinct);
-        console.log('Provinces: ', Provinces);
-        renderOptions('#ProvinceSelect', Provinces);
-        renderOptions('#PROVINCE', Provinces);
+        
+        renderOptions('#ProvinceSelect', Provinces, 'ALL');
+        renderOptions('#PROVINCE', Provinces, '');
     });
 
     
@@ -49,14 +55,14 @@ $(function () {
                 return v.CITY;
         });
         var aCities = c.filter(distinct);
-        renderOptions("#CitySelect", aCities);
+        renderOptions("#CitySelect", aCities, 'ALL');
     });
 
     $('#PROVINCE').change(function (e) {
         var provinceSelected = $(this).val();
         var c = ProvinceCity.map(function (v, i, a) { if (v.PROVINCE === provinceSelected) return v.CITY; });
         var iCities = c.filter(distinct);
-        renderOptions('#CITY', iCities);
+        renderOptions('#CITY', iCities, '');
     });
 
     $('#CitySelect').change(function (e) {
@@ -113,11 +119,74 @@ $(function () {
     });
 
     $('#DownloadButton').click(function (e) {
-        alert('DownloadButton.Click');
+        if (Suppliers.length < 1) {
+            alert("Search first");
+            return;
+        }
+        var workbook = XLSX.utils.book_new();
+        var wsheet = XLSX.utils.json_to_sheet(Suppliers);
+        var colwidths = [15, 25, 35, 15, 15, 12]; 
+        wsheet['!cols'] = colwidths.map(function (v, i, a) { return { width: v }; });
+        XLSX.utils.book_append_sheet(workbook, wsheet, 'Suppliers');
+        XLSX.writeFile(workbook, 'Suppliers.xlsx');        
+    });
+
+    $('#ExcelUpload').change(function (e) {
+        UploadSuppliers = [];
+        let files = e.target.files;
+        var f;
+        for (var i = 0; i < files.length; i++ ) {
+            f = files[i];
+            var r = new FileReader(); 
+            var n = r.name;
+            r.onload = function (ev) {
+                var data = ev.target.result;
+                var workbook = null;
+                try {
+                    workbook = XLSX.read(data, { type: 'binary' });
+                } catch (ex) {
+                    alert('read Excel Error');
+                }
+                if (workbook === null) return; 
+
+                workbook.SheetNames.forEach(function (sheetName) {
+                    var suppliers = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 });
+                    
+                    if (suppliers.length > 0);
+                    var colNames = suppliers[0];
+
+                    suppliers.forEach(function (v, i) {
+                        if (i > 0) {
+                            var d = {};
+                            var s = v;
+                            colNames.forEach(function (colname, coli) {
+                                d[colname] = s[coli];
+                            });
+                            UploadSuppliers.push(d);
+                        }
+
+                    });
+
+                    console.log(UploadSuppliers);
+                   
+                });
+            };
+            r.onerror = function (e) {
+                alert(e);
+            };
+            r.readAsBinaryString(f);
+        }
     });
 
     $('#UploadButton').click(function (e) {
-        alert('UploadButton.Click');
+        if (UploadSuppliers.length > 0) {
+            $.post("/Supplier/PutSupplier"
+                , { data: UploadSuppliers }
+                , function (x, h, r) { alert("data saving " + x); }
+                , "json");
+        } else {
+            alert('Select File to upload');
+        }
     });
 
     $('#AddButton').click(function (e) {
@@ -128,7 +197,7 @@ $(function () {
     });
     $('#DeleteButton').click(function (e) {
         if (confirm("Delete this record?")) {
-            console.log("Deleted");
+           alert("Deleted");
         }
     });
 
