@@ -22,7 +22,7 @@ namespace Supp.Controllers
 
             foreach(Supplier sup in data)
             {
-                int r = Sing.Run("PutSupplier", sup);
+                int r = Sing.Execute(Sing.Me.SQL["PutSupplier"], sup, null, 10, System.Data.CommandType.Text);
                 if (r < 0) errCount++;
             }
 
@@ -32,7 +32,9 @@ namespace Supp.Controllers
 
         public JsonResult GetSupplier(string SUPPLIER_CODE = null, string PROVINCE =null, string CITY = null)
         {
-            return Json(Sing.Qx<Supplier>("GetSupplier", new { SUPPLIER_CODE, PROVINCE, CITY }).ToArray(), JsonRequestBehavior.AllowGet);
+            return Json(Sing.Qx<Supplier>("GetSupplier"
+                , new { SUPPLIER_CODE, PROVINCE, CITY }).ToArray()
+                , JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetProvinceCity()
