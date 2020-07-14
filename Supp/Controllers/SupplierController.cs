@@ -14,7 +14,23 @@ namespace Supp.Controllers
         {
             return View();
         }
-     
+
+        [HttpPost]
+        public JsonResult DelSupplier(List<string> data)
+        {
+            int errCount = 0;
+            if (data == null) return Json("ERR");
+
+            foreach (string SUPPLIER_CODE in data)
+            {
+                int r = Sing.Execute(Sing.Me.SQL["DelSupplier"], new { SUPPLIER_CODE }, null, 10, System.Data.CommandType.Text);
+                if (r < 0) errCount++;
+            }
+                    
+            return Json((errCount > 0) ? "FAIL" : "OK");
+        }
+
+        [HttpPost]
         public JsonResult PutSupplier(List<Supplier> data)
         {
             if (data == null) return Json("ERR");

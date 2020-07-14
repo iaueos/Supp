@@ -140,6 +140,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Supplier.js" />
     <Content Include="Scripts\xlsx.full.min.js" />
+    <Content Include="sql\DelSupplier.sql" />
     <Content Include="sql\GetMasterCity.sql" />
     <Content Include="sql\GetSupplier.sql" />
     <Content Include="sql\PutSupplier.sql" />
