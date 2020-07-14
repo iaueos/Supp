@@ -342,7 +342,8 @@ namespace Supp.Models
                     Directory.CreateDirectory(apath);
                 Sing.Me.Set("AppDataPath", apath);
             }
-            File.AppendAllText(Path.Combine(apath, DateTime.Now.ToString("yyyyMMdd") + ".log"), string.Format(s, x));
+            File.AppendAllText(Path.Combine(apath, DateTime.Now.ToString("yyyyMMdd") + ".log")
+                 , DateTime.Now.ToString("HH:mm:ss") + "\t" + string.Format(s, x));
         }
         public static void Error<T>(this Exception ex, string fun, object param = null, string fkey = null, string fval = null)
         {
